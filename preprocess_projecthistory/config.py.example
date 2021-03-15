@@ -1,0 +1,52 @@
+# Config for file_processing
+
+MEDIA_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+INBOX = 'my-bucket'
+
+# Mapping column names
+COLUMN_MAPPING = {
+    'Column 1': 'column_one',
+    'Column 2': 'column_two'
+}
+
+# Columns without personal data
+COLUMNS_NONPII = [
+    'column_one',
+    'column_two'
+]
+
+# Columns to be hashed after renaming. If none, then COLUMNS_HASH should not be declared
+COLUMNS_HASH = [
+    'column_one,
+    'column_two
+]
+
+The aggregation type for every column used in the groupby function
+GROUPBY_COLUMNS = {
+    'column_one': 'sum',
+    'column_two': 'first'
+}
+
+# Original incomming file to be deleted from bucket by function when finished or
+# to be deleted automatically after rention period is passed
+# If delete is True, original file is deleted after the function is finished
+DELETE = False
+
+# JSON_ELEMENTS is used when reading data from JSON where the top-level is an object instead
+# of a list. The list containing the data to load is the value of an attribute of the top-level object.
+# For example, setting JSON_ELEMENTS to rows, will load this JSON: {"rows": [{"field1": "value1"}] }
+# If the JSON data top-level object is a list (like [{"field1": "value1"}]), then JSON_ELEMENTS should
+# not be declared.
+JSON_ELEMENTS = ['rows']
+
+# If we need to combine certain columns (string) into a unique key, use COLUMN_COMBINE as a dictionary. The key is
+# is the new column name and the value is a list (minimum = 2) of columns to be combined. If the key already exists, this column will
+# be overwritten by the new combined string. It is possible to define more than one key, value pairs. If no column need
+# to be combined, COLUMN_COMBINE should not be declared.
+COLUMN_COMBINE = {
+    'sleutel': ['sleutel', 'project']
+}
+
+# if FILEPATH_PREFIX_FILTER is configure, only the files with this prefix will be handled.
+FILEPATH_PREFIX_FILTER = 'source/path'
