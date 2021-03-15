@@ -71,10 +71,10 @@ def preprocessing(bucket_name, blob_name):
             df[key] = df[value].apply(lambda x: '_'.join(x.dropna().astype(str)), axis=1)
 
     # make unique
-    if hasattr(config, 'GROUPBY_COLUMNS'):
-        df = df.groupby(['id']).agg(config.GROUPBY_COLUMNS).reset_index()
+    df.kostendrager = df.kostendrager.str.strip()
+    df = df.groupby(['id']).agg(config.GROUPBY_COLUMNS).reset_index()
 
-        # replace '' with none values
+    # replace '' with none values
     for col in df.columns:
         df.at[df[col] == '', col] = None
 
