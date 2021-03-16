@@ -77,6 +77,7 @@ def preprocessing(bucket_name, blob_name):
     df = df.groupby(['id']).agg(config.GROUPBY_COLUMNS).reset_index()
 
     # replace '' with none values
+    df = df.astype(str)
     for col in df.columns:
         df.at[df[col] == '', col] = None
 
