@@ -72,8 +72,8 @@ def preprocessing(bucket_name, blob_name):
 
     # make unique
     df.kostendrager = df.kostendrager.astype(str).str.strip()
-    df.bedrag = df.bedrag.astype(float)
-    df.hoeveelheid = df.hoeveelheid.astype(float)
+    df.bedrag = df.bedrag.astype(str).str.replace(',', '.').astype(float)
+    df.hoeveelheid = df.hoeveelheid.astype(str).str.replace(',', '.').astype(float)
     df = df.groupby(['id']).agg(config.GROUPBY_COLUMNS).reset_index()
 
     # replace '' with none values
