@@ -65,15 +65,18 @@ def preprocessing(bucket_name, blob_name):
             message=message
         )
 
+    # make unique
+    df.kostendrager = df.kostendrager.astype(str).str.strip()
+    df.bedrag = pd.to_numeric(df.bedrag.str.replace(',', '.'), errors='coerce')
+    df.hoeveelheid = pd.to_numeric(df.hoeveelheid.str.replace(',', '.'), errors='coerce')
+    df.project = df.project.str.strip()
+
     # combine columns
     if hasattr(config, 'COLUMN_COMBINE'):
         for key, value in config.COLUMN_COMBINE.items():
             df[key] = df[value].apply(lambda x: '_'.join(x.dropna().astype(str)), axis=1)
 
-    # make unique
-    df.kostendrager = df.kostendrager.astype(str).str.strip()
-    df.bedrag = pd.to_numeric(df.bedrag.str.replace(',', '.'), errors='coerce')
-    df.hoeveelheid = pd.to_numeric(df.hoeveelheid.str.replace(',', '.'), errors='coerce')
+    # groupby columns
     df = df.groupby(['id']).agg(config.GROUPBY_COLUMNS).reset_index()
 
     # replace '' with none values
